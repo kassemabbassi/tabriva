@@ -1,12 +1,18 @@
-import React from 'react'
+import React ,{useEffect} from 'react'
 import {Link} from "react-router-dom";
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const MainMenu = () => {
   const{logout}=useLogout()
-  const {user}=useAuthContext()
+  const {user,dispatch}=useAuthContext()
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'))
 
+    if (!user) {
+      dispatch({ type: 'LOGOUT'}) 
+    }
+  }, [dispatch])
   const handleClick=()=>{
     logout()
   }

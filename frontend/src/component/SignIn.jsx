@@ -1,31 +1,20 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate  } from "react-router-dom";
 import { useAuthContext } from '../hooks/useAuthContext'
 
-const SignIn = ({ switchToSignUp }) => {
+const SignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
   const {user}=useAuthContext()
-  const fetch=async()=>{
-    try{
-    const response = await axios.get("http://localhost:5000/api/users/test", {
-        headers: {
-          Authorization: 'Bearer '+user.user,
-        },
-      });
-      console.log(response)
-    }catch(err){
-      console.log(err)
-  }
-  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -47,7 +36,10 @@ const SignIn = ({ switchToSignUp }) => {
 
       // update the auth context
       dispatch({type: 'LOGIN', payload: response.data})
-      if(user){await fetch()}
+      setIsLoading(false)
+      if(user){ 
+        navigate('/t5azwi9a');
+      }
     } catch (err) {
       setIsLoading(false)
       setError(err.response ? err.response.data.message : "Server error");

@@ -67,4 +67,11 @@ exports.signIn = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
+exports.getClients=async(req,res)=>{
+  try {
+    const clients = await Client.find({}, "name email"); // Récupère uniquement les champs `name` et `email`
+    res.status(200).json(clients); // Renvoie les utilisateurs
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des utilisateurs" });
+  }
+}
